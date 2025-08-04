@@ -1,0 +1,75 @@
+<!-- Layer 7: Smart Display & Reminder Engine --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Pal - Smart Engine</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-4">
+  <div class="max-w-xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Smart Display & Reminder Engine</h1><!-- Time-Based Health Tip -->
+<div id="timeTip" class="mb-4 p-4 bg-blue-100 dark:bg-blue-800 rounded-xl shadow"></div>
+
+<!-- Hydration Reminder -->
+<div class="mb-4">
+  <button onclick="scheduleHydrationReminder()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Set Hydration Reminder</button>
+</div>
+
+<!-- Random Fact Display -->
+<div id="randomFact" class="p-4 bg-green-100 dark:bg-green-800 rounded-xl shadow"></div>
+
+<!-- End-of-Day Summary (Static for Now) -->
+<div class="mt-6 p-4 bg-yellow-100 dark:bg-yellow-800 rounded-xl shadow">
+  <h2 class="font-semibold text-lg">Daily Summary (Example)</h2>
+  <ul class="list-disc list-inside">
+    <li>Exercise Completed: ✅</li>
+    <li>Water Intake: 6/8 glasses</li>
+    <li>Mood Log: 😌 Good</li>
+  </ul>
+</div>
+
+  </div><script>
+  // Time-Based Tip
+  const tipsByTime = {
+    morning: "Start your day with a glass of water and light stretching.",
+    afternoon: "Time to take a quick walk or stretch to boost energy!",
+    evening: "Wind down with breathing exercises and reflect on your day.",
+    night: "Avoid screens before bed. Try journaling or a warm shower."
+  };
+  const hour = new Date().getHours();
+  const tipContainer = document.getElementById("timeTip");
+  if (hour < 12) tipContainer.textContent = tipsByTime.morning;
+  else if (hour < 17) tipContainer.textContent = tipsByTime.afternoon;
+  else if (hour < 21) tipContainer.textContent = tipsByTime.evening;
+  else tipContainer.textContent = tipsByTime.night;
+
+  // Hydration Reminder
+  function scheduleHydrationReminder() {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+    setTimeout(() => {
+      if (Notification.permission === "granted") {
+        new Notification("💧 Time to hydrate! Drink a glass of water.");
+      }
+    }, 3000); // Fires in 3 seconds for demo
+  }
+
+  // Random Fact Engine (7-day non-repeat)
+  const facts = [
+    "Smiling can boost your immune system.",
+    "Deep breathing reduces stress hormones.",
+    "Sleep helps solidify memories.",
+    "Laughter increases oxygen to your organs.",
+    "Touching your toes relieves back tension.",
+    "Writing thoughts helps mental clarity.",
+    "Music can regulate your heartbeat."
+  ];
+  const shownFacts = JSON.parse(localStorage.getItem('shownFacts') || '[]');
+  let nextFact = facts.find(f => !shownFacts.includes(f)) || facts[0];
+  document.getElementById("randomFact").textContent = nextFact;
+  shownFacts.push(nextFact);
+  if (shownFacts.length > 7) shownFacts.shift();
+  localStorage.setItem('shownFacts', JSON.stringify(shownFacts));
+</script></body>
+</html>
