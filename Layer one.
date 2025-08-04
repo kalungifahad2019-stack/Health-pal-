@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Health Pal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f7fa;
+      color: #333;
+    }
+    header {
+      background: #2b7a78;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    main {
+      padding: 1.5rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    section {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      margin-top: 0;
+      color: #20515b;
+    }
+    .info {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .tag {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background: #def2f1;
+      color: #2b7a78;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-radius: 5px;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Health Pal</h1>
+  <p>Your smart, daily health companion</p>
+</header>
+
+<main>
+
+  <section id="dailyTipSection">
+    <h2>🩺 Daily Health Tip</h2>
+    <p id="dailyTip" class="info">Loading tip...</p>
+    <span class="tag" id="tipTag">AI Generated</span>
+  </section>
+
+  <section id="exerciseSection">
+    <h2>🏃 Daily Exercise Plan</h2>
+    <p id="dailyExercise" class="info">Loading...</p>
+    <span class="tag" id="exerciseFor">For: -</span>
+  </section>
+
+  <section id="psychFactSection">
+    <h2>🧠 Psychological Fact</h2>
+    <p id="psychFact" class="info">Loading...</p>
+    <span class="tag">Mind Boost</span>
+  </section>
+
+</main>
+
+<script src="data-layer.js"></script>
+</body>
+</html>
