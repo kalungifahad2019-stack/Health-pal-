@@ -1,0 +1,55 @@
+// data-layer.js
+
+// User profile (can be 'male', 'female', 'pregnant', 'pediatric')
+const userProfile = localStorage.getItem("healthPalUser") || "female";
+
+// Sample data
+const healthTips = [
+  "Stay hydrated. Drink at least 8 cups of water a day.",
+  "Eat more fiber-rich foods for better digestion.",
+  "Stretch for 5 minutes every morning to improve flexibility.",
+  "Limit your screen time to reduce eye strain.",
+  "Wash your hands regularly to prevent infections."
+];
+
+const exercises = {
+  male: [
+    "Do 15 push-ups and 20 squats.",
+    "Walk briskly for 20 minutes.",
+    "Try 30 jumping jacks."
+  ],
+  female: [
+    "Do 10 glute bridges and 15 lunges.",
+    "Stretch for 10 minutes.",
+    "Take a light jog or walk for 20 mins."
+  ],
+  pregnant: [
+    "Practice deep breathing and pelvic tilts.",
+    "Take a gentle 15-minute walk.",
+    "Do 5 minutes of prenatal yoga stretches."
+  ],
+  pediatric: [
+    "Jump rope for 1 minute.",
+    "Run in place for 30 seconds.",
+    "Play catch or do 10 jumping jacks."
+  ]
+};
+
+const psychologicalFacts = [
+  "Smiling—even fake—can trick your brain into happiness.",
+  "Gratitude improves mental and physical health.",
+  "Listening to music can reduce anxiety and improve memory.",
+  "People tend to remember emotionally intense events better.",
+  "Taking breaks boosts focus and creativity."
+];
+
+// Random selection function
+function getRandom(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+// Inject into UI
+document.getElementById("dailyTip").innerText = getRandom(healthTips);
+document.getElementById("dailyExercise").innerText = getRandom(exercises[userProfile]);
+document.getElementById("exerciseFor").innerText = `For: ${userProfile.charAt(0).toUpperCase() + userProfile.slice(1)}`;
+document.getElementById("psychFact").innerText = getRandom(psychologicalFacts);
