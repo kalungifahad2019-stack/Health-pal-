@@ -1,0 +1,185 @@
+// logic-layer.js
+
+// Setup user type if not already stored
+function initializeUserProfile() {
+  if (!localStorage.getItem("healthPalUser")) {
+    const defaultUser = prompt("Select your profile: male, female, pregnant, pediatric")?.toLowerCase();
+    if (["male", "female", "pregnant", "pediatric"].includes(defaultUser)) {
+      localStorage.setItem("healthPalUser", defaultUser);
+    } else {
+      localStorage.setItem("healthPalUser", "female"); // fallback
+    }
+  }
+}
+
+// Switch between Light and Dark mode
+function toggleTheme() {
+  const body = document.body;
+  const currentTheme = body.dataset.theme || "light";
+  const newTheme = currentTheme === "light" ? "dark" : "light";
+  body.dataset.theme = newTheme;
+  localStorage.setItem("theme", newTheme);
+  applyTheme();
+}
+
+// Apply theme from storage
+function applyTheme() {
+  const theme = localStorage.getItem("theme") || "light";
+  document.body.dataset.theme = theme;
+
+  document.body.style.background = theme === "dark" ? "#1e1e1e" : "#f4f7fa";
+  document.body.style.color = theme === "dark" ? "#ddd" : "#333";
+
+  const sections = document.querySelectorAll("section");
+  sections.forEach(section => {
+    section.style.background = theme === "dark" ? "#2a2a2a" : "white";
+    section.style.color = theme === "dark" ? "#ddd" : "#333";
+  });
+}
+
+// Initialize App
+initializeUserProfile();
+applyTheme();
+<button onclick="toggleTheme()" style="background: white; color: #2b7a78; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+  Toggle Dark Mode
+</button>
+// ai-layer.js
+
+// Simulated AI generator
+function generateDynamicContent(userType) {
+  const now = new Date().getHours();
+  const greeting = now < 12 ? "Good morning" : now < 18 ? "Good afternoon" : "Good evening";
+
+  // Dynamic messages
+  const tip = `${greeting}! Remember to take deep breaths during the day — it helps lower stress.`;
+  const psych = `${userType === "pediatric" ? "Kids" : "You"} who engage in creative play daily tend to develop stronger cognitive skills.`;
+  const exercise = userType === "pregnant"
+    ? "Try 5 gentle pelvic tilts and a 10-minute walk today."
+    : `A light 20-minute activity like brisk walking or stretching is great for a ${userType}.`;
+
+  return { tip, psych, exercise };
+}
+
+// Inject AI content to the DOM
+function renderAIContent() {
+  const userType = localStorage.getItem("healthPalUser") || "female";
+  const aiContent = generateDynamicContent(userType);
+
+  document.getElementById("dailyTip").innerText = aiContent.tip;
+  document.getElementById("psychFact").innerText = aiContent.psych;
+  document.getElementById("dailyExercise").innerText = aiContent.exercise;
+  document.getElementById("exerciseFor").innerText = `For: ${userType}`;
+}
+
+// Run after DOM is ready
+document.addEventListener("DOMContentLoaded", r
+enderAIContent);
+<script src="data-layer.js"></script>
+<script src="logic-layer.js"></script>
+<script src="ai-layer.js"></script>
+<section id="planner">
+  <h2>🗓️ Daily Planner</h2>
+  <textarea id="plannerInput" placeholder="Type your daily tasks here..." rows="5" style="width: 100%; padding: 8px;"></textarea>
+  <br/>
+  <button onclick="savePlanner()">💾 Save</button>
+  <p id="saveMsg" style="color: green;"></p>
+</section>
+<section id="medTracker">
+  <h2>💊 Medication Tracker</h2>
+  <input id="medName" type="text" placeholder="Medication name" />
+  <input id="medTime" type="time" />
+  <button onclick="addMedication()">➕ Add</button>
+
+  <ul id="medList" style="margin-top: 1rem;"></ul>
+</section>
+function addMedication() {
+  const name = document.getElementById("medName").value;
+  const time = document.getElementById("medTime").value;
+  if (!name || !time) return alert("Enter name and time");
+
+  const meds = JSON.parse(localStorage.getItem("medications") || "[]");
+  meds.push({ name, time });
+  localStorage.setItem("medications", JSON.stringify(meds));
+  renderMeds();
+}
+
+function renderMeds() {
+  const meds = JSON.parse(localStorage.getItem("medications") || "[]");
+  const list = document.getElementById("medList");
+  list.innerHTML = "";
+  meds.forEach((med, i) => {
+    const li = document.createElement("li");
+    li.textContent = `${med.name} - ${med.time}`;
+    list.appendChild(li);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", renderMeds);
+{
+  "name": "Health Pal",
+  "short_name": "HealthPal",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2b7a78",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
+const CACHE_NAME = "healthpal-cache-v1";
+const urlsToCache = [
+  "index.html",
+  "style.css",
+  "data-layer.js",
+  "logic-layer.js",
+  "ai-layer.js",
+  "tools-layer.js",
+  "manifest.json",
+  "icon.png"
+];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => response || fetch(event.request))
+  );
+});
+const CACHE_NAME = "healthpal-cache-v1";
+const urlsToCache = [
+  "index.html",
+  "style.css",
+  "data-layer.js",
+  "logic-layer.js",
+  "ai-layer.js",
+  "tools-layer.js",
+  "manifest.json",
+  "icon.png"
+];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => response || fetch(event.request))
+  );
+});
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js").then(() => {
+      console.log("Service Worker registered");
+    });
+  }
+</script>
